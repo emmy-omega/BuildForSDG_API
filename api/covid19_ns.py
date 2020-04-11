@@ -53,7 +53,7 @@ class OnCovid19(Resource):
         return estimator(data)
 
 
-@api.route('/log')
+@api.route('/logs')
 class OnCovid19Logs(Resource):
     def get(self):
         with open(os.path.join('requests.log'), 'r') as f:

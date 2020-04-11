@@ -1,0 +1,2 @@
+include BuildForSDG_API/schema.sql
+global-exclude *.pyc

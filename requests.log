@@ -1,0 +1,13 @@
+GET		/api/v1/on-covid-19/logs		405		0.0 ms
+GET		/api/v1/on-covid-19/logs		405		0.0 ms
+GET		/api/v1/on-covid-19/logs		405		0.0 ms
+GET		/api/v1/on-covid-19/logs		405		0.0 ms
+GET		/api/v1/on-covid-19/log		200		0.0 ms
+GET		/api/v1/on-covid-19/log		200		0.0 ms
+POST		/api/v1/on-covid-19		200		0.0 ms
+GET		/api/v1/on-covid-19/log		200		0.0 ms
+1586608633.6173172
+1586608633.6190877
+GET		/api/v1/on-covid-19/log		200		0.0 ms
+0.0
+GET		/api/v1/on-covid-19/log		200		0.0 ms

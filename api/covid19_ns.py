@@ -2,10 +2,11 @@ import os
 
 from flask_restplus import Namespace, Resource, fields, Model, representations
 from flask import make_response
+from simplexml import dumps
 
 from BuildForSDG_API.lib import estimator
 from flask.helpers import make_response
-from flask import g
+from flask import g, Response
 
 api = Namespace('on-covid-19', description="Covid 19 related resource")
 
@@ -50,7 +51,8 @@ class OnCovid19(Resource):
     @api.marshal_with(estimates)
     def post(self, format=None):
         data = api.payload
-        return estimator(data)
+        estimates = estimator(data)
+        return estimates
 
 
 @api.route('/logs')

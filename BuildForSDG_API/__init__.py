@@ -84,8 +84,7 @@ def create_app(test_config=None):
         log = getLogger(__name__.split('.')[0])
 
         now = time.time()
-        duration = round(now - g.start, 2)
-        app.logger.debug(duration)
+        duration = round((now - g.start) * 1000, 2)
         log.debug(
             f'{request.method}\t\t{request.path}\t\t{response.status_code}\t\t{duration} ms')
 

@@ -173,24 +173,3 @@ def impacts(input):
 @dollarInFlight
 def estimator(data):
     return data
-
-
-# @app.before_request
-# def start_timer():
-#     g, start = time.time()
-
-
-# @app.after_request
-# def log_request(response):
-#     if request.path == '/favicon.ico':
-#         return response
-#     elif request.path.startswith('/static'):
-#         return response
-
-#     now = time.time()
-#     duration = round(now - g.start, 2)
-
-#     app.logger.info(
-#         f'{request.method}\t\t{request.path}\t\t{response.status_code}\t\t{duration}')
-
-#     return response

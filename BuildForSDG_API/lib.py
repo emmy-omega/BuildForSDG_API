@@ -1,4 +1,6 @@
 from functools import wraps
+from datetime import timedelta
+from operator import itemgetter
 
 
 impactCalcs = {
@@ -8,14 +10,19 @@ impactCalcs = {
     'HBBRT': lambda x, y: int((x * .35) - y),
     'CFICUBRT': lambda x: int(x * .05),
     'CFVBRT': lambda x: int(x * .02),
-    'DIF': lambda x, y, z, r: round(x * y * z * r, 2)
+    'DIF': lambda x, y, z, r: round((x * y * z) / r, 2)
+}
+
+duration_normaliser = {
+    'days': lambda x: x,
+    'weeks': lambda x: timedelta(weeks=x).days,
+    'months': lambda x: 30 * x
 }
 
 
 def currentlyInfected(estimator):
     @wraps(estimator)
     def wrapper(data):
-        # print(f'currentlyInfected:\n{data}')
         reported_cases = data['data']['reportedCases']
         data.update({
             'impact': {
@@ -36,7 +43,8 @@ def infectionsByRequestedTime(estimator):
         # print(data)
         currently_infected = data['impact']['currentlyInfected']
         currently_infected_severe = data['severeImpact']['currentlyInfected']
-        timeToElapse = data['data']['timeToElapse']
+        timeToElapse = duration_normaliser[data['data']['periodType']](
+            data['data']['timeToElapse'])
         data['impact'].update({
             'infectionsByRequestedTime': impactCalcs['IBRT'](currently_infected, timeToElapse)
         })
@@ -122,7 +130,8 @@ def dollarInFlight(estimator):
         infections_by_requested_time_severe = data['severeImpact']['infectionsByRequestedTime']
         avg_daily_income = data['data']['region']['avgDailyIncomeInUSD']
         avg_daily_income_population = data['data']['region']['avgDailyIncomePopulation']
-        timeToElapse = data['data']['timeToElapse']
+        timeToElapse = duration_normaliser[data['data']['periodType']](
+            data['data']['timeToElapse'])
 
         impact = {
             'dollarsInFlight': impactCalcs['DIF'](infections_by_requested_time, avg_daily_income, avg_daily_income_population, timeToElapse)
@@ -138,22 +147,7 @@ def dollarInFlight(estimator):
     return wrapper
 
 
-input = {
-    "region": {
-        "name": "Africa",
-        "avgAge": 19.7,
-        "avgDailyIncomeInUSD": 4,
-        "avgDailyIncomePopulation": 0.73
-    },
-    "periodType": "days",
-    "timeToElapse": 38,
-    "reportedCases": 2747,
-    "totalHospitalBeds": 678874,
-    "population": 92931687
-}
-
-
-def impacts(input):
+def init(input):
     def _impacts(estimator):
         @wraps(estimator)
         def wrapper(data):
@@ -163,7 +157,7 @@ def impacts(input):
     return _impacts
 
 
-@impacts({})
+@init({})
 @currentlyInfected
 @infectionsByRequestedTime
 @severeCasesByRequestedTime

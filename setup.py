@@ -6,5 +6,5 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     include_package_date=True,
-    install_requires=['Flask', 'flask_restplus', 'python-simplexml']
+    install_requires=['Flask', 'python-simplexml']
 )

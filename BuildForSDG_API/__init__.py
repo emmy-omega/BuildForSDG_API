@@ -7,8 +7,8 @@ from logging.config import dictConfig
 import werkzeug
 werkzeug.cached_property = werkzeug.utils.cached_property
 from flask import Flask, Blueprint, request, g
+from .on_covid_dp import bp as on_covid_bp
 
-from api.v1 import api, bp
 
 # Config logging
 # basicConfig(filename='requests.log', filemode='a',
@@ -53,8 +53,7 @@ def create_app(test_config=None):
     app = Flask(__name__.split('.')[0], instance_relative_config=True)
 
     app.config.from_mapping(
-        SECRET_KEY=b'<\x1c\xf6-\t\xb1\xe4\x17\x87!\xf4\xfeO\xe2\xac_',
-        DATABASE=os.path.join(app.instance_path, 'BuildForSDG.sqlite')
+        SECRET_KEY=b'<\x1c\xf6-\t\xb1\xe4\x17\x87!\xf4\xfeO\xe2\xac_'
     )
 
     if test_config is None:
@@ -90,7 +89,7 @@ def create_app(test_config=None):
 
         return response
 
-    app.register_blueprint(bp, url_prefix='/api/v1')
+    app.register_blueprint(on_covid_bp)
 
     # api.init_app(app)
 

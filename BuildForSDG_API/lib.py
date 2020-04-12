@@ -16,7 +16,7 @@ impactCalcs = {
 duration_normaliser = {
     'days': lambda x: x,
     'weeks': lambda x: timedelta(weeks=x).days,
-    'months': lambda x: 30 * x
+    'months': lambda x: int(30 * x)
 }
 
 
